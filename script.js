@@ -159,9 +159,16 @@ const countryList = {
     ZMK: "ZM",
     ZWD: "ZW",
   };
-const URL ="https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur/jpy.json"
+
+  const fromcurr=document.querySelector(".from select");
+  const tocurr=document.querySelector(".to select");
+
+const URL =`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${fromcurr.value.toLowerCase}/${tocurr.value.toLowerCase}.json`;
 
 const dropdowns = document.querySelectorAll(".dropdown select");
+const btn=document.querySelector(".button");
+const inputValue=document.querySelector(".amount input");
+
 
 dropdowns.forEach(dropdown => {
     for (let currency in countryList) {
@@ -192,3 +199,22 @@ const updateflag = (element) => {
     let img = element.parentElement.querySelector("img");
     img.src = newsrc;
 };
+
+
+btn.addEventListener("click", async(evnt)=>{
+    evnt.preventDefault();
+   let amount = inputValue.value;
+   
+   if(amount===""){
+    alert("Please Enter your amount");
+   }else if(amount<0){
+    alert("Invalid number");
+   }else{
+   // console.log(fromcurr.value,tocurr.value);
+   let response= await fetch(URL);
+   // console.log(response);
+    let data= response.json();
+    console.log(data);
+   }
+});
+
